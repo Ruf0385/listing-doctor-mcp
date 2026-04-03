@@ -1,0 +1,56 @@
+# Smithery.ai configuration for Listing Doctor MCP Server
+# https://smithery.ai/docs/publishing
+
+name: listing-doctor
+displayName: "Listing Doctor — Etsy Listing Optimizer"
+description: >
+  AI-powered Etsy listing optimization scoring engine. Score listings on a 100-point
+  scale across Title SEO, Tags, Description, Photos, and Conversion. Get letter grades
+  (A–F), pinpoint specific issues, and receive prioritized fix recommendations.
+  Purpose-built for Etsy with scoring derived from proven seller education methodology.
+  5 tools: score_listing, check_title_seo, check_tags, get_optimization_tips,
+  analyze_listing_url. No API keys required for 4 of 5 tools.
+author: Listing Doctor
+homepage: https://listingdoctor.com
+repository: https://github.com/listingdr/mcp-server
+license: MIT
+version: 1.0.0
+tags:
+  - etsy
+  - seo
+  - listing-optimization
+  - ecommerce
+  - scoring
+  - etsy-seller
+  - etsy-seo
+  - title-optimizer
+  - tag-optimizer
+  - marketplace
+  - listing-analyzer
+  - conversion-optimization
+  - ai-tools
+
+startCommand:
+  type: stdio
+  configSchema:
+    type: object
+    properties:
+      ETSY_CLIENT_ID:
+        type: string
+        title: "Etsy API Client ID"
+        description: "Etsy API client ID (optional — only needed for URL-based analysis via analyze_listing_url)"
+      ETSY_ACCESS_TOKEN:
+        type: string
+        title: "Etsy OAuth Access Token"
+        description: "Etsy OAuth access token (optional — only needed for URL-based analysis via analyze_listing_url)"
+    required: []
+  commandFunction:
+    |-
+    (config) => ({
+      command: "npx",
+      args: ["tsx", "src/index.ts"],
+      env: {
+        ...(config.ETSY_CLIENT_ID ? { ETSY_CLIENT_ID: config.ETSY_CLIENT_ID } : {}),
+        ...(config.ETSY_ACCESS_TOKEN ? { ETSY_ACCESS_TOKEN: config.ETSY_ACCESS_TOKEN } : {}),
+      }
+    })

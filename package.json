@@ -1,0 +1,56 @@
+{
+  "name": "@listing-doctor/mcp-server",
+  "version": "1.0.0",
+  "description": "MCP server for Etsy listing optimization — score titles, tags, descriptions, photos & conversion on a 100-point scale. AI-powered SEO analysis with letter grades (A–F) and prioritized fix recommendations. Works with Claude, Cursor, Windsurf, and any MCP-compatible AI client.",
+  "type": "commonjs",
+  "main": "src/index.ts",
+  "bin": {
+    "listing-doctor-mcp": "bin/listing-doctor-mcp.sh"
+  },
+  "scripts": {
+    "start": "tsx src/index.ts",
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc",
+    "inspect": "npx @modelcontextprotocol/inspector tsx src/index.ts"
+  },
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "model-context-protocol",
+    "etsy",
+    "etsy-seo",
+    "etsy-seller",
+    "listing-optimization",
+    "seo",
+    "ai-tools",
+    "ecommerce",
+    "marketplace",
+    "scoring",
+    "title-optimizer",
+    "tag-optimizer",
+    "listing-analyzer",
+    "conversion-optimization"
+  ],
+  "author": "Listing Doctor <hello@listingdoctor.com>",
+  "homepage": "https://github.com/listingdr/mcp-server",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/listingdr/mcp-server.git"
+  },
+  "bugs": {
+    "url": "https://github.com/listingdr/mcp-server/issues"
+  },
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.12.1",
+    "zod": "^3.24.4"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.2",
+    "tsx": "^4.19.4",
+    "typescript": "^5.8.3"
+  }
+}
