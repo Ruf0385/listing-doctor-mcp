@@ -1,5 +1,5 @@
 {
-  "name": "@listing-doctor/mcp-server",
+  "name": "listing-doctor-mcp",
   "version": "1.0.0",
   "description": "MCP server for Etsy listing optimization — score titles, tags, descriptions, photos & conversion on a 100-point scale. AI-powered SEO analysis with letter grades (A–F) and prioritized fix recommendations. Works with Claude, Cursor, Windsurf, and any MCP-compatible AI client.",
   "type": "commonjs",

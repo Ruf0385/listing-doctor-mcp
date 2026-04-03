@@ -967,6 +967,56 @@ Let's start with Step 1!`,
   },
 );
 
+// ─── Smithery Sandbox Export ──────────────────────────────────────────────────
+
+/**
+ * Export for Smithery registry scanning.
+ * Returns a fresh server instance with no transport attached.
+ */
+export function createSandboxServer() {
+  const sandboxServer = new McpServer({
+    name: "listing-doctor",
+    version: "1.0.0",
+    description:
+      "Listing Doctor — Etsy listing optimization scoring engine. Analyze titles, tags, descriptions, photos, and more for SEO and conversion optimization.",
+  });
+
+  // Re-register all tools on the sandbox instance
+  // (Smithery just needs to see the tool schemas, not actually run them)
+  sandboxServer.tool(
+    "score_listing",
+    "Score an Etsy listing across all 6 SEO and conversion categories. Returns a score (0-100), letter grade (A-F), detailed category breakdown, issues found, and prioritized fix suggestions.",
+    { title: z.string(), tags: z.array(z.string()), description: z.string(), photos_count: z.number(), alt_texts: z.array(z.string()), favorites: z.number().optional(), views: z.number().optional(), has_video: z.boolean().optional(), price: z.number().optional() },
+    async () => ({ content: [{ type: "text" as const, text: "sandbox" }] }),
+  );
+  sandboxServer.tool(
+    "analyze_listing_url",
+    "Analyze an Etsy listing by its URL. Fetches listing data from the Etsy API and scores it.",
+    { url: z.string() },
+    async () => ({ content: [{ type: "text" as const, text: "sandbox" }] }),
+  );
+  sandboxServer.tool(
+    "get_optimization_tips",
+    "Get prioritized optimization tips for an Etsy listing.",
+    { title: z.string(), tags: z.array(z.string()), description: z.string(), photos_count: z.number() },
+    async () => ({ content: [{ type: "text" as const, text: "sandbox" }] }),
+  );
+  sandboxServer.tool(
+    "check_title_seo",
+    "Quick SEO analysis of an Etsy listing title.",
+    { title: z.string() },
+    async () => ({ content: [{ type: "text" as const, text: "sandbox" }] }),
+  );
+  sandboxServer.tool(
+    "check_tags",
+    "Analyze Etsy listing tags for coverage, duplication, and optimization opportunities.",
+    { title: z.string(), tags: z.array(z.string()) },
+    async () => ({ content: [{ type: "text" as const, text: "sandbox" }] }),
+  );
+
+  return sandboxServer;
+}
+
 // ─── Start Server ──────────────────────────────────────────────────────────────
 
 async function main() {
@@ -975,7 +1025,12 @@ async function main() {
   console.error("Listing Doctor MCP server running on stdio");
 }
 
-main().catch((error) => {
-  console.error("Fatal error starting MCP server:", error);
-  process.exit(1);
-});
+// Only start stdio transport when running directly (not imported by Smithery)
+const isMainModule = typeof require !== "undefined" && require.main === module;
+const isDirectRun = process.argv[1]?.includes("index");
+if (isMainModule || isDirectRun) {
+  main().catch((error) => {
+    console.error("Fatal error starting MCP server:", error);
+    process.exit(1);
+  });
+}
